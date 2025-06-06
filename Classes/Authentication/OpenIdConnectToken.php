@@ -69,7 +69,7 @@ final class OpenIdConnectToken extends AbstractToken
         }
 
         try {
-            $this->identityTokenRepository->get($this->entryPoint->getOptions()['serviceName']);
+            $this->identityTokenRepository->get($this->options['serviceName']);
         } catch (NoSuchIdentityTokenException $exception) {
             if ($this->getAuthenticationStatus() !== self::AUTHENTICATION_SUCCESSFUL) {
                 $this->setAuthenticationStatus(self::AUTHENTICATION_NEEDED);
@@ -89,7 +89,7 @@ final class OpenIdConnectToken extends AbstractToken
      */
     public function extractIdentityTokenFromRequest(): IdentityToken
     {
-        $serviceName = $this->entryPoint->getOptions()['serviceName'];
+        $serviceName = $this->options['serviceName'];
 
         if ($this->authorizationHeader !== null && strpos($this->authorizationHeader, 'Bearer ') !== false) {
             return $this->extractIdentityTokenFromAuthorizationHeader($serviceName);
