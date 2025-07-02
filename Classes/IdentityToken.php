@@ -33,8 +33,10 @@ final class IdentityToken extends AbstractToken
         }
 
         $currentSession = $this->sessionManager->getCurrentSession();
+        if (!$currentSession->isStarted()) {
+            $currentSession->start();
+        }
         $tagPrefix = md5("Flownative-OpenIdConnect-Client-$oidcServiceName");
-        // Session is already started at this point, this exception can never really occur.
         $currentSession->addTag("$tagPrefix-$sessionIdentifier");
     }
 

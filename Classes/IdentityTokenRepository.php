@@ -58,6 +58,9 @@ final class IdentityTokenRepository
 
         $currentSession = $this->sessionManager->getCurrentSession();
 
+        if (!$currentSession->isStarted()) {
+            throw new \RuntimeException('Session not started');
+        }
         $currentSession->putData(
             $this->getSessionIdentifierKeyForService($identityToken->getOidcServiceName()),
             $identityToken->asJwt()
